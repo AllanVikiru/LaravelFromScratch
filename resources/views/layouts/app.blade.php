@@ -20,8 +20,8 @@
 <body>
     @include('inc.navbar')
         <main class="py-4">
-            @include('inc.messages')
                 <div class="container">
+                    @include('inc.messages')
                     @yield('content')
                 </div>
         </main>

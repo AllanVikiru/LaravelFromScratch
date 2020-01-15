@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="/posts" class="btn btn-primary btn-sm">Go Back</a>
-<h1>{{$post->title}}</h1>
+<button class="btn btn-primary btn-sm" onclick= "window.location.href='/posts'">
+     Go Back
+</button>
+<h3>{{$post->title}}</h3>
+<img style= "width: 100%" src="/storage/cover_images/{{$post->cover_image}}">
+<br> <br>
 <div>
 	{!! $post->body !!}
 </div>
@@ -11,13 +15,17 @@
 <small>Written on {{$post->created_at}} by {{$post->user['name']}} </small>
 
 <hr>
-<a href="/posts/{{$post->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
+@if (!Auth::guest()) <!--locks out unauthenticated users from editing and deleting posts -->
+    @if (Auth::user()->id == $post->user_id)
+    <!--limits editing and deleting to post owner -->
+        <a href="/posts/{{$post->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
 
-<div style="float:right;">
-{{Form::open(['action' =>['PostsController@destroy', $post->id], 'method' => 'POST'])}}
-    {{Form::hidden('_method', 'DELETE') }}
-    {{Form::submit('Delete', ['class'=>'btn btn-danger btn-sm'])}}
-{!! Form::close() !!}
-</div>
-
+        <div style="float:right;">
+        {{Form::open(['action' =>['PostsController@destroy', $post->id], 'method' => 'POST'])}}
+            {{Form::hidden('_method', 'DELETE') }}
+            {{Form::submit('Delete', ['class'=>'btn btn-danger btn-sm'])}}
+        {!! Form::close() !!}
+        </div>
+     @endif
+@endif
 @endsection

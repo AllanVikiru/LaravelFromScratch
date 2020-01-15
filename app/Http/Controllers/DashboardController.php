@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
+     * for a user to access the dashboard, they have to be authenticated otherwise, BLOCKEDT
      * @return void
      */
     public function __construct()
